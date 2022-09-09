@@ -51,6 +51,9 @@ export const Table = styled.table`
   tbody {
     background-color: #f0f3f4;
     tr {
+      :hover {
+        background-color: #e0e0e0;
+      }
       td {
         height: 50px;
         color: #b8b8b8;
