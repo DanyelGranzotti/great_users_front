@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 
 // Importa api
 import api from "../../services/api";
+import { nameCase } from "../../services/utils";
 
 // Dependecias para formularios e validação
 import { validateCPF } from "validations-br";
@@ -32,19 +33,19 @@ const onSubmitHandler = async (values) => {
   let cpf = values.cpf.replace(/[^\d]+./g, "");
   let rg = values.rg.replace(/[^\d]+./g, "");
 
-  console.log("RG" + rg + "CPF" + cpf);
   await api.post("/user", {
-    name: values.name,
+    name: nameCase(values.name),
     cpf: cpf,
     rg: rg,
     birthDate: date.toISOString(),
-    motherName: values.motherName,
-    fatherName: values.fatherName,
+    motherName: nameCase(values.motherName),
+    fatherName: nameCase(values.fatherName),
   });
   window.location.href = "/";
 };
 
 function Register() {
+  const [popup, setPopup] = useState(false);
   return (
     <Styled.Container>
       <Styled.Content>
@@ -85,7 +86,11 @@ function Register() {
                 <Styled.ContentRowLabels>
                   <div>
                     <label htmlFor="birthDate">Data de nascimento*</label>
-                    <Styled.ContentField name="birthDate" type="date" />
+                    <Styled.ContentField
+                      name="birthDate"
+                      placeholder="Ex: 01/01/2000"
+                      type="date"
+                    />
                     {errors.birthDate && touched.birthDate ? (
                       <Styled.ErrorMessages>
                         {errors.birthDate}
@@ -168,6 +173,7 @@ function Register() {
       <Styled.ImageContainer>
         <img src="/img/Register.png" alt="" />
       </Styled.ImageContainer>
+      {popup ? <div>Teste</div> : null}
     </Styled.Container>
   );
 }

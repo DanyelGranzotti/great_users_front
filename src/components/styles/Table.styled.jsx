@@ -9,6 +9,9 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   padding: 40px 50px;
+  @media (max-width: 768px) {
+    padding: 40px 20px;
+  }
 `;
 
 export const Table = styled.table`
@@ -16,6 +19,9 @@ export const Table = styled.table`
   border: 1px solid #b8b8b8;
   border-collapse: collapse;
   font-size: 18px;
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
   thead {
     tr {
       th {
@@ -27,6 +33,9 @@ export const Table = styled.table`
       }
       th:first-child {
         width: 25%;
+        @media (max-width: 768px) {
+          width: 50%;
+        }
       }
       th:nth-child(2) {
         width: 20%;

@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
+
+// importa api
 import api from "./services/api";
 
+// importa utilidades
+import { nameCase } from "./services/utils";
+
+// importa componentes de estilo
 import * as Syled from "./styles/App.styled";
 
+// importa componentes
 import SearchBar from "./components/ShearchBar";
 import Table from "./components/Table";
 import Pagination from "./components/Pagination";
@@ -36,7 +43,7 @@ function App() {
 
   const onSearchNameHandler = (name) => {
     api
-      .get("/user/name/" + name)
+      .get("/user/name/" + nameCase(name))
       .then((response) => {
         setUserList(response.data);
         setTotalPages(1);
@@ -49,7 +56,7 @@ function App() {
 
   const onSearchCpfHandler = (cpf) => {
     api
-      .get("/user/cpf/" + cpf)
+      .get("/user/cpf/" + cpf.replace(/\D/g, ""))
       .then((response) => {
         setUserList([response.data]);
         setTotalPages(1);
@@ -62,7 +69,7 @@ function App() {
 
   const onSearchRgHandler = (rg) => {
     api
-      .get("/user/rg/" + rg)
+      .get("/user/rg/" + rg.replace(/\D/g, ""))
       .then((response) => {
         setUserList([response.data]);
         setTotalPages(1);

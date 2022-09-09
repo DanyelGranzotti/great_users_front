@@ -38,3 +38,12 @@ export const calcAge = (value) => {
 
   return age;
 };
+
+export const nameCase = (name) => {
+  var splitName = name.toLowerCase().split(" ");
+  for (var i = 0; i < splitName.length; i++) {
+    splitName[i] =
+      splitName[i].charAt(0).toUpperCase() + splitName[i].substring(1);
+  }
+  return splitName.join(" ");
+};

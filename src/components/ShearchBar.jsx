@@ -50,7 +50,11 @@ function SearchBar(props) {
           placeholder="Buscar pelo nome"
           onChange={onChageNameHandler}
         />
-        <button type="button" onClick={onButtonNameClickHandler}>
+        <button
+          type="button"
+          onClick={onButtonNameClickHandler}
+          data-testid="findByName"
+        >
           <AiOutlineSearch />
         </button>
       </Syled.Input>
@@ -60,7 +64,11 @@ function SearchBar(props) {
           placeholder="Buscar pelo CPF"
           onChange={onChageCpfHandler}
         />
-        <button type="button" onClick={onButtonCpfClickHandler}>
+        <button
+          type="button"
+          onClick={onButtonCpfClickHandler}
+          data-testid="findByCpf"
+        >
           <AiOutlineSearch />
         </button>
       </Syled.Input>
@@ -70,7 +78,11 @@ function SearchBar(props) {
           placeholder="Buscar pelo RG"
           onChange={onChageRgHandler}
         />
-        <button type="button" onClick={onButtonRgClickHandler}>
+        <button
+          type="button"
+          onClick={onButtonRgClickHandler}
+          data-testid="findByRg"
+        >
           <AiOutlineSearch />
         </button>
       </Syled.Input>

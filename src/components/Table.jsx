@@ -34,18 +34,24 @@ function Table(props) {
                 </tr>
               </thead>
               <tbody>
-                {props.userList.map((user) => (
-                  <tr key={user.id}>
-                    <td>
-                      <Syled.LinkButton to={`/user/${user.cpf}`}>
-                        {user.name}
-                      </Syled.LinkButton>
-                    </td>
-                    <td>{dateMask(user.birthDate)}</td>
-                    <td>{cpfMask(user.cpf)}</td>
-                    <td>{dateMask(user.registrationDate)}</td>
+                {props.userList && props.userList.length > 0 ? (
+                  props.userList.map((user) => (
+                    <tr key={user.id}>
+                      <td>
+                        <Syled.LinkButton to={`/user/${user.cpf}`}>
+                          {user.name}
+                        </Syled.LinkButton>
+                      </td>
+                      <td>{dateMask(user.birthDate)}</td>
+                      <td>{cpfMask(user.cpf)}</td>
+                      <td>{dateMask(user.registrationDate)}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="4">Nenhum usuário encontrado</td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </Syled.Table>
           ) : (
