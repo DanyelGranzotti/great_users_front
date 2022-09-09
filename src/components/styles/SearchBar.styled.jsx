@@ -10,6 +10,9 @@ export const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-top: 140px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 export const Input = styled.div`
@@ -51,6 +54,10 @@ export const Input = styled.div`
       background-color: #666666;
     }
   }
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-bottom: 10px;
+  }
 `;
 
 export const RegisterButton = styled(Link)`
@@ -71,5 +78,9 @@ export const RegisterButton = styled(Link)`
   &:hover {
     background-color: #d65a1a;
     color: #f8f8f8;
+  }
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-top: 20px;
   }
 `;

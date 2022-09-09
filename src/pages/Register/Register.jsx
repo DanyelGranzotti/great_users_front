@@ -1,12 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+
+// Importa api
 import api from "../../services/api";
 
+// Dependecias para formularios e validação
 import { validateCPF } from "validations-br";
-import { useFormik, Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
+import * as yup from "yup";
+
+// Dependecias de estilização
+import * as Styled from "./Register.styled";
+import { AiOutlinePlus } from "react-icons/ai";
 
 // Schema de validação do formulário de cadastro
-import * as yup from "yup";
 const schema = yup.object().shape({
   name: yup.string().required("Nome obrigatório"),
   birthDate: yup.date().required("Data de nascimento obrigatória"),
@@ -21,9 +28,11 @@ const schema = yup.object().shape({
 });
 
 const onSubmitHandler = async (values) => {
-  const date = new Date(values.birthDate);
-  const cpf = values.cpf.replace(/[^\d]+-./g, "");
-  const rg = values.rg.replace(/[^\d]+-./g, "");
+  let date = new Date(values.birthDate);
+  let cpf = values.cpf.replace(/[^\d]+./g, "");
+  let rg = values.rg.replace(/[^\d]+./g, "");
+
+  console.log("RG" + rg + "CPF" + cpf);
   await api.post("/user", {
     name: values.name,
     cpf: cpf,
@@ -37,53 +46,129 @@ const onSubmitHandler = async (values) => {
 
 function Register() {
   return (
-    <div>
-      <Formik
-        initialValues={{
-          name: "",
-          birthDate: new Date(),
-          motherName: "",
-          fatherName: "",
-          rg: "",
-          cpf: "",
-        }}
-        validationSchema={schema}
-        onSubmit={onSubmitHandler}
-      >
-        {({ values, errors, touched }) => (
-          <Form>
-            <label htmlFor="name">Nome</label>
-            <Field name="name" />
-            {errors.name && touched.name ? <div>{errors.name}</div> : null}
+    <Styled.Container>
+      <Styled.Content>
+        <Styled.Header>
+          <h1>Cadastro de usuário</h1>
+          <p>
+            Preencha os campos abaixo para cadastrar um novo usuário no sistema
+          </p>
+        </Styled.Header>
+        <Styled.ContentForm>
+          <Formik
+            initialValues={{
+              name: "",
+              birthDate: new Date(),
+              motherName: "",
+              fatherName: "",
+              rg: "",
+              cpf: "",
+            }}
+            validationSchema={schema}
+            onSubmit={onSubmitHandler}
+          >
+            {({ values, errors, touched }) => (
+              <Form style={{ width: "100%" }}>
+                <Styled.ContentRowLabels>
+                  <div>
+                    <label htmlFor="name">Nome*</label>
+                    <Styled.ContentField
+                      name="name"
+                      placeholder="Ex: Lucas Pereira Silva"
+                    />
+                    {errors.name && touched.name ? (
+                      <Styled.ErrorMessages>{errors.name}</Styled.ErrorMessages>
+                    ) : null}
+                  </div>
+                </Styled.ContentRowLabels>
 
-            <label htmlFor="birthDate">Data de nascimento</label>
-            <Field name="birthDate" type="date" />
-            {errors.birthDate && touched.birthDate ? (
-              <div>{errors.birthDate}</div>
-            ) : null}
+                <Styled.ContentRowLabels>
+                  <div>
+                    <label htmlFor="birthDate">Data de nascimento*</label>
+                    <Styled.ContentField name="birthDate" type="date" />
+                    {errors.birthDate && touched.birthDate ? (
+                      <Styled.ErrorMessages>
+                        {errors.birthDate}
+                      </Styled.ErrorMessages>
+                    ) : null}
+                  </div>
+                </Styled.ContentRowLabels>
 
-            <label htmlFor="motherName">Nome da mãe</label>
-            <Field name="motherName" />
-            {errors.motherName && touched.motherName ? (
-              <div>{errors.motherName}</div>
-            ) : null}
-            <label htmlFor="fatherName">Nome do pai</label>
-            <Field name="fatherName" />
-            {errors.fatherName && touched.fatherName ? (
-              <div>{errors.fatherName}</div>
-            ) : null}
-            <label htmlFor="rg">RG</label>
-            <Field name="rg" />
-            {errors.rg && touched.rg ? <div>{errors.rg}</div> : null}
-            <label htmlFor="cpf">CPF</label>
-            <Field name="cpf" />
+                <Styled.ContentRowLabels>
+                  <div>
+                    <label htmlFor="motherName">Nome da mãe*</label>
+                    <Styled.ContentField
+                      name="motherName"
+                      placeholder="Ex: Maria Silva"
+                    />
+                    {errors.motherName && touched.motherName ? (
+                      <Styled.ErrorMessages>
+                        {errors.motherName}
+                      </Styled.ErrorMessages>
+                    ) : null}
+                  </div>
+                </Styled.ContentRowLabels>
 
-            {errors.cpf && touched.cpf ? <div>{errors.cpf}</div> : null}
-            <button type="submit">Submit</button>
-          </Form>
-        )}
-      </Formik>
-    </div>
+                <Styled.ContentRowLabels>
+                  <div>
+                    <div>
+                      <label htmlFor="fatherName">Nome do pai*</label>
+                      <Styled.ContentField
+                        name="fatherName"
+                        placeholder="Ex: João Pereira"
+                      />
+                    </div>
+                    {errors.fatherName && touched.fatherName ? (
+                      <Styled.ErrorMessages>
+                        {errors.fatherName}
+                      </Styled.ErrorMessages>
+                    ) : null}
+                  </div>
+                </Styled.ContentRowLabels>
+
+                <Styled.ContentRowLabels>
+                  <div>
+                    <div>
+                      <label htmlFor="rg">RG*</label>
+                      <Styled.HalfContentField
+                        name="rg"
+                        placeholder="Ex: 4.589.689"
+                      />
+                    </div>
+                    {errors.rg && touched.rg ? (
+                      <Styled.ErrorMessages>{errors.rg}</Styled.ErrorMessages>
+                    ) : null}
+                  </div>
+                  <div>
+                    <div>
+                      <label htmlFor="cpf">CPF*</label>
+                      <Styled.HalfContentField
+                        name="cpf"
+                        placeholder="Ex: 912.116.431-91"
+                      />
+                    </div>
+                    {errors.cpf && touched.cpf ? (
+                      <Styled.ErrorMessages>{errors.cpf}</Styled.ErrorMessages>
+                    ) : null}
+                  </div>
+                </Styled.ContentRowLabels>
+
+                <Styled.ContentButtonsRow>
+                  <Styled.GoBackButton to="/">Cancelar</Styled.GoBackButton>
+                  <Styled.RegisterButtonContainer type="submit">
+                    <AiOutlinePlus />
+                    Cadastrar
+                  </Styled.RegisterButtonContainer>
+                </Styled.ContentButtonsRow>
+              </Form>
+            )}
+          </Formik>
+        </Styled.ContentForm>
+      </Styled.Content>
+      <Styled.ImageContainer>
+        <img src="/img/Register.png" alt="" />
+      </Styled.ImageContainer>
+    </Styled.Container>
   );
 }
 

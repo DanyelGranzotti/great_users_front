@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
+// Importa api
 import api from "../../services/api";
+
+import * as Styled from "./User.styled";
+import { AiOutlineLeft } from "react-icons/ai";
+import { FiTrash } from "react-icons/fi";
+
+import { cpfMask, dateMask, calcAge, rgMask } from "../../services/utils";
 
 function User() {
   const userCpf = useParams().id;
@@ -32,24 +39,75 @@ function User() {
   };
 
   return (
-    <div>
-      <Link to="/">Back</Link>
-      <h1>Informações do usuário</h1>
-      <p>Nome: {user.name}</p>
-      <p>Data de nascimento: {user.birthDate}</p>
-      <p>Nome da mãe: {user.motherName}</p>
-      <p>Nome do pai: {user.fatherName}</p>
-      <p>RG: {user.rg}</p>
-      <p>CPF: {user.cpf}</p>
-      <button onClick={() => setPopup(true)}>Deletar usuário</button>
+    <Styled.Container>
+      <Styled.Content>
+        <Styled.Header>
+          <div>
+            <Link to="/">
+              <AiOutlineLeft />
+            </Link>
+          </div>
+          <h1>Informações do usuário</h1>
+        </Styled.Header>
+        <Styled.Body>
+          <hr />
+          <Styled.Info>
+            <div>
+              <h2>Nome:</h2>
+              <p>{user.name}</p>
+            </div>
+            <div>
+              <div>
+                <div>
+                  <h2>Data de nascimento:</h2>
+                  <p>{user.birthDate ? dateMask(user.birthDate) : ""}</p>
+                </div>
+                <div>
+                  <h2>Idade:</h2>
+                  <p>
+                    {user.birthDate ? calcAge(user.birthDate) : "Não informado"}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h2>Nome da mãe:</h2>
+              <p>{user.motherName}</p>
+            </div>
+            <div>
+              <h2>Nome do pai:</h2>
+              <p>{user.fatherName}</p>
+            </div>
+            <div>
+              <div>
+                <div>
+                  <h2>RG:</h2>
+                  <p>{user.rg ? rgMask(user.rg) : "Não informado"}</p>
+                </div>
+                <div>
+                  <h2>CPF:</h2>
+                  <p>{user.cpf ? cpfMask(user.cpf) : ""}</p>
+                </div>
+              </div>
+            </div>
+
+            <Styled.DeleteButton onClick={() => setPopup(true)}>
+              <FiTrash />
+              Deletar usuário
+            </Styled.DeleteButton>
+          </Styled.Info>
+        </Styled.Body>
+      </Styled.Content>
       {popup ? (
-        <span>
-          <p>Tem certeza que deseja deletar o usuário?</p>
-          <button onClick={() => handleDeleteTrue(user.cpf)}>Sim</button>
-          <button onClick={() => setPopup(false)}>Não</button>
-        </span>
+        <Styled.Popup>
+          <div>
+            <p>Tem certeza que deseja deletar o usuário?</p>
+            <button onClick={() => handleDeleteTrue(user.cpf)}>Sim</button>
+            <button onClick={() => setPopup(false)}>Não</button>
+          </div>
+        </Styled.Popup>
       ) : null}
-    </div>
+    </Styled.Container>
   );
 }
 

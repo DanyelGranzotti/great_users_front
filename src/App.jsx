@@ -12,19 +12,26 @@ function App() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [blankShearch, setBlankShearch] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Carrega a lista de usuário com base na página atual
+  const catchUserList = async () => {
+    try {
+      setLoading(true);
+      const response = await api
+        .get("/user/?page=" + (page - 1) + "&size=10")
+        .then((response) => {
+          setUserList(response.data.content);
+          setTotalPages(Math.ceil(response.data.totalElements / 10));
+          setLoading(false);
+        });
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
+
   useEffect(() => {
-    api
-      .get("/user/?page=" + (page - 1) + "&size=10")
-      .then((response) => {
-        setUserList(response.data.content);
-        setTotalPages(Math.ceil(response.data.totalElements / 10));
-        setBlankShearch(false);
-      })
-      .catch((error) => {
-        console.log("Error: ", error);
-      });
+    catchUserList();
   }, [page, blankShearch]);
 
   const onSearchNameHandler = (name) => {
@@ -86,7 +93,7 @@ function App() {
         onSearchRg={onSearchRgHandler}
         setBlank={setBlankShearch}
       />
-      <Table userList={userList} />
+      <Table userList={userList} loading={loading} />
       <Pagination page={page} totalPages={totalPages} setPage={setPage} />
     </Syled.Container>
   );

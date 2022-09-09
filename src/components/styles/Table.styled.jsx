@@ -47,6 +47,7 @@ export const Table = styled.table`
         color: #b8b8b8;
         padding: 10px 20px;
         border: 1px solid #b8b8b8;
+        overflow: hidden;
       }
     }
   }

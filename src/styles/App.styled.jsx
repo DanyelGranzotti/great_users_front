@@ -3,7 +3,7 @@ import styled from "styled-components";
 // Styled Components - CSS in JS - https://styled-components.com/
 export const Container = styled.div`
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   margin: 0;
   position: absolute;
@@ -52,6 +52,9 @@ export const Header = styled.header`
     img {
       width: 205px;
       height: 49px;
+      @media (max-width: 768px) {
+        display: none;
+      }
     }
   }
 `;
