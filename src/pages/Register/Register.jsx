@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 
 // Importa api
@@ -28,24 +28,38 @@ const schema = yup.object().shape({
     .required("CPF obrigatório"),
 });
 
-const onSubmitHandler = async (values) => {
-  let date = new Date(values.birthDate);
-  let cpf = values.cpf.replace(/[^\d]+./g, "");
-  let rg = values.rg.replace(/[^\d]+./g, "");
-
-  await api.post("/user", {
-    name: nameCase(values.name),
-    cpf: cpf,
-    rg: rg,
-    birthDate: date.toISOString(),
-    motherName: nameCase(values.motherName),
-    fatherName: nameCase(values.fatherName),
-  });
+const backHomePage = () => {
   window.location.href = "/";
 };
 
 function Register() {
   const [popup, setPopup] = useState(false);
+
+  const onSubmitHandler = async (values) => {
+    let date = new Date(values.birthDate);
+    let cpf = values.cpf.replace(/[^\d]+./g, "");
+    let rg = values.rg.replace(/[^\d]+./g, "");
+
+    await api.post("/user", {
+      name: nameCase(values.name),
+      cpf: cpf,
+      rg: rg,
+      birthDate: date.toISOString(),
+      motherName: nameCase(values.motherName),
+      fatherName: nameCase(values.fatherName),
+    });
+    setPopup(true);
+  };
+
+  useEffect(() => {
+    if (popup) {
+      setTimeout(() => {
+        setPopup(false);
+        backHomePage();
+      }, 3000);
+    }
+  }, [popup]);
+
   return (
     <Styled.Container>
       <Styled.Content>
@@ -173,7 +187,18 @@ function Register() {
       <Styled.ImageContainer>
         <img src="/img/Register.png" alt="" />
       </Styled.ImageContainer>
-      {popup ? <div>Teste</div> : null}
+      {popup ? (
+        <Styled.Popup>
+          <div>
+            <p>
+              Usuário cadastrado com sucesso!
+              <br />
+              <br />
+              Você será redirecionado para a página inicial
+            </p>
+          </div>
+        </Styled.Popup>
+      ) : null}
     </Styled.Container>
   );
 }

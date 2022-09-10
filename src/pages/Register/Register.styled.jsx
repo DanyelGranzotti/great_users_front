@@ -188,3 +188,44 @@ export const ImageContainer = styled.div`
     display: none;
   }
 `;
+
+export const Popup = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  div {
+    width: 50%;
+    height: 40%;
+    border: 1px solid #000;
+    background-color: #fff;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  p {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 47px;
+    margin: 0 35px;
+    color: #d65a1a;
+  }
+  @media (max-width: 768px) {
+    margin-bottom: 50px;
+    font-size: 1rem;
+    div {
+      width: 90%;
+      height: 60%;
+    }
+  }
+`;
